@@ -1,0 +1,47 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{macros}[2019/06/01 Cross-document useful macros]
+
+% Define the base color palette - based on Paul Tol's colors
+\RequirePackage{xcolor}
+
+% Main colors
+\definecolor{mBlue}{HTML}{0077BB}
+\definecolor{mCyan}{HTML}{33BBEE}
+\definecolor{mTeal}{HTML}{009988}
+\definecolor{mOrange}{HTML}{EE7733}
+\definecolor{mRed}{HTML}{CC3311}
+\definecolor{mMagneta}{HTML}{EE3377}
+\definecolor{mGrey}{HTML}{BBBBBB}
+
+% Light colors (some)
+\definecolor{lBlue}{HTML}{77AADD}
+\definecolor{lCyan}{HTML}{99DDFF}
+\definecolor{lMint}{HTML}{44BB99}
+\definecolor{lPear}{HTML}{BBCC33}
+
+% Two commands using these colors
+\newcommand{\alert}[1]{\textbf{\textcolor{mRed}{#1}}}
+\newcommand{\define}[1]{\textbf{\textcolor{mBlue}{#1}}}
+
+% Multiline equations with IEEEeqnarray
+\RequirePackage{IEEEtrantools}
+\newenvironment{eqns}{\begin{IEEEeqnarray}{rCl}}{\end{IEEEeqnarray}}
+\newenvironment{eqns*}{\begin{IEEEeqnarray*}{rCl}}{\end{IEEEeqnarray*}}
+
+% Vectors as bold math symbols
+\RequirePackage{bm}
+\renewcommand{\vec}[1]{\ensuremath{\bm{#1}}}
+
+% Shorthands for some commondly used mathbb symbols
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\E}{\ensuremath{\mathbb{E}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+
+% Positive and non-negative reals
+\newcommand{\Rp}{\ensuremath{\R_{>0}}}
+\newcommand{\Rnn}{\ensuremath{\R_{\geq 0}}}
+
+% Common sums
+\newcommand{\si}{\ensuremath{\sum_{i=1}^n}}
