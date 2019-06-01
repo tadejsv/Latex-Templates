@@ -244,13 +244,13 @@ When trying to match the style of python (matplotlib) graphs, two main adjusteme
 
 \subsection{Fonts}
 
-We need to make sure that the fonts in the document match the fonts in the graph. Matplotlib has a limited selection of fonts, so its safest to let \LaTeX\ do all the font processing. We need to load the fonts and change the size to match that of our document. We would do this by putting this at the beginning of our document
+We need to make sure that the fonts in the document match the fonts in the graph. Matplotlib has a limited selection of fonts, so its safest to let \LaTeX\ do all the font processing. We need to load the fonts and change the size to match that of our document. We would do this by putting this at the beginning of our code
 \begin{minted}{python}
 from matplotlib import rc
 
 rc('text.latex', preamble=r'\usepackage[charter,cal=cmcal]{mathdesign}')
 rc('text', usetex=True)
-rc('font', family='sans-serif', size=11)
+rc('font', family='serif', size=11)
 \end{minted}
 
 Note that this will slow down processing quite a bit, so \alert{only change the fonts when the figures are done!}
