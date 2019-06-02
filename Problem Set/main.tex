@@ -62,11 +62,10 @@ The \texttt{name} argument simply defines a name to be used for the problem, if 
 
 Finally, here is how an inline version of this problem would look like\footnote{I just use \texttt{\textbackslash{}paragraph} for this demonstration}:
 
-\paragraph{Problem 4 (Problems)}
+\paragraph{\textsf{Problem 4 (Problems)}}
 The class defines a \texttt{\textbackslash{}problem} command to show the problem title. This can \ldots
 
 \problem{Hideable solutions}
-
 The last piece of the puzzle are the problem set solutions. They can be made to disappear -- this is very useful, for example, if you are a TA, and want to avoid having to create two copies (one with solutions one without) of the problem set. You can first create the problem set with the solutions, set the \texttt{nosolutions} option to hide them and distribute this copy, and once the problem set is past the due date, remove this option and upload the full document.
 
 By default, the solutions appear inside a box, to make them easily visually distinguishable. If you want to remove the box, pass the \texttt{nobox} option to the document class.
@@ -75,13 +74,13 @@ Here's how solutions look like:
 \begin{solutions}
 Does this really solve anything?
 \end{solutions}
-
 and here is how this example was produced
 \begin{minted}{latex}
 \begin{solutions}
     Does this really solve anything?
 \end{solutions}
 \end{minted}
+
 Finally, here's how the solutions would have looked like with the \texttt{nobox} option:
 \begin{solutionsa}
 Does this really solve anything?

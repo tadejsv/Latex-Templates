@@ -76,8 +76,11 @@
 % Import the macros.sty package, we mainly need it for the color palette 
 \RequirePackage{macros}
 
-% Use Bitstream Charter fonts
+% Use Bitstream Charter fonts for serif font
 \RequirePackage[charter,cal=cmcal]{mathdesign}
+
+% Use Fira Sans as sans-serif font
+\RequirePackage[lining]{FiraSans}
 
 % Hyperref
 \AtEndPreamble{
@@ -121,7 +124,7 @@
 % Custom problem command
 \newcommand{\problem}[2][]{%
     \vskip 3.25ex plus 1ex minus .2ex%
-    {\bfseries\ifbool{inline}{\normalsize}{\Large}\@problemstr\ \refstepcounter{problem}\theproblem\ifstrempty{#1}{}{\label{pr:#1}}%
+    {\sffamily\bfseries\ifbool{inline}{\normalsize}{\Large}\@problemstr\ \refstepcounter{problem}\theproblem\ifstrempty{#1}{}{\label{pr:#1}}%
      \ifstrempty{#2}{}{ (#2)}}%
     \setlength{\tskip}{1em-\parskip}\ifbool{inline}{\hskip 1em}{\vskip \tskip}
 }
@@ -142,7 +145,3 @@
         }
     }
 }
-
-% Hide solutions if nosolutions option is passed
-
-%\renewenvironment{solutions}{comment}{}

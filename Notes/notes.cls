@@ -136,6 +136,9 @@
 % Use Bitstream Charter fonts
 \RequirePackage[charter,cal=cmcal]{mathdesign}
 
+% Use Fira Sans as sans-serif font
+\RequirePackage[lining]{FiraSans}
+
 % Hyperref
 \AtEndPreamble{
     \RequirePackage[unicode]{hyperref}
