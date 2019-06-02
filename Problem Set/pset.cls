@@ -99,8 +99,8 @@
 \renewcommand{\maketitle}{
 \begingroup
     \begin{tcolorbox}[width=\textwidth,sharp corners, colframe=black, colback=white, boxrule=1pt]
-        \parbox{\textwidth}{\centering
-            {\large\scshape\@course\quad\hspace*{\fill}\@term\rule{0pt}{0pt}}\\[1em]
+        \parbox{\textwidth}{\centering\sffamily
+            {\large\@course\quad\hspace*{\fill}\@term\rule{0pt}{0pt}}\\[1em]
             {\LARGE\bfseries\@title}\ifdefempty{\@date}{\\[1em]}{\\}
             \ifdefempty{\@date}{}{{\large\@date}\\[1em]}
             {\large\@author}
