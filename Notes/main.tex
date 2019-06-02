@@ -1,6 +1,5 @@
 \documentclass[letterpaper,11pt]{notes}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% WARNING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -94,7 +93,7 @@ Additionally, \texttt{proof} also has a fancy version with a colorful frame, but
 \subsection{Theorem}
 The following example shows the basic syntax of the \texttt{thm} command:
 \begin{minted}{latex}
-\begin{thm}{Cauchy-Schwarz inequality}{cs}
+\begin{thm}{Cauchy-Bunyakovsky-Schwarz inequality}{cs}
     For all vectors $\vec{u}$ and $\vec{v}$ in ...
 \end{thm}
 \end{minted}
@@ -148,10 +147,10 @@ In the discrete topology, the closed sets are $X$ and $\emptyset$.
 \subsection{\texttt{nofancy} theorems} \label{nofancy}
 Here we show how the previous examples in this section would have looked like if we passed the \texttt{nofancy} option to the document class. The code syntax would have remained the same, of course.
 
-\begin{thmA}{Cauchy-Schwarz inequality}{cs}
+\begin{thmA}{Cauchy-Bunyakovsky-Schwarz inequality}{cs}
 For all vectors $\vec{u}$ and $\vec{v}$ in an inner product space it is true that
 \begin{equation}
-    \left|\langle\vec{u}, \vec{v}\rangle\right|^2 = \langle\vec{u}, \vec{u} \rangle \cdot \langle\vec{v}, \vec{v} \rangle 
+    \left|\langle\vec{u}, \vec{v}\rangle\right|^2 \leq \langle\vec{u}, \vec{u} \rangle \cdot \langle\vec{v}, \vec{v} \rangle 
 \end{equation}
 \end{thmA}
 
@@ -240,12 +239,12 @@ rc('axes', prop_cycle = cycler(c=colors))
 \subsection{An example}
 Let's put the two things together, to create a simple example. Here is the code:
 \inputminted[linenos]{python}{fig.py}%
-The result is shown in Figure \ref{fig:trig}. To completely visually merge the figure in the document we would probably need to tweak a few more things (for example the legend box), but as far as the fonts and colors are concerned, we are done. Note that we set the width of the figure to 6 inches -- that's ok, as we have seen that the width of our document is \uselengthunit{in}\printlength{\textwidth}. 
+The result is shown in Figure \ref{fig:trig}. Note that we set the width of the figure to 5 inches -- that's ok, as we have seen that the width of our document is \uselengthunit{in}\printlength{\textwidth}. 
 
 There are also a few extra useful tweaks in the code:
 \begin{itemize}
     \item The title size is set, in line 25, to the document size (11) -- this is because by default, the title size is a bit bigger (other graph elements do not have this problem). But this is most likely not relevant anyways, as you would not need a title on a figure that will already have a caption.
-    \item The path in \texttt{savefig} (line 34) is set to the Overleaf Dropbox repository. This is a great way to get continuous updating with Overleaf every time you change the figure in the code, without having to manually copy/paste or git commit/push.
+    \item The path in \texttt{savefig} (line 31) is set to the Overleaf Dropbox repository. This is a great way to get continuous updating with Overleaf every time you change the figure in the code, without having to manually copy/paste or git commit/push.
 \end{itemize}
 
 \begin{figure}

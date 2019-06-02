@@ -14,22 +14,19 @@ rc('axes', prop_cycle = cycler(c=colors))
 
 # Plot
 x = np.linspace(-np.pi, np.pi, int(1e3))
-fig, ax = plt.subplots(figsize=(6,4))
+fig, ax = plt.subplots(figsize=(5,4))
 ax.plot(x, np.sin(x), label=rf'$\sin(x)$')
 
 for i in range(1,6):
-    ax.plot(x, np.sin(x + i*np.pi/6), 
-            label=r'$\sin\left(x+ \frac{' + str(i) + r'}{6}\pi\right)$')
+    ax.plot(x, np.sin(x + i*np.pi/6))
 
 # Label graph
-ax.set_title('Some trig functions', fontsize=11)
+ax.set_title(r'Functions of the form $f(x) = \sin\left(x + \frac{k}{6}\pi\right)$'+\
+             r' where $k \in \{0,1,2,3,4,5\}$', fontsize=11)
 ax.set_xlabel(r'$x$')
 ax.set_ylabel(r'$f(x)$')
 
-# Tweak legend and layout
-plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1), borderaxespad=0.)
+# Tweak layout and save figure
 plt.tight_layout()
-
-# Save figure
 fig.savefig('../../Dropbox (MIT)/Apps/Overleaf/Templates/Notes/trig.pdf', 
             pad_inches=0, bbox_inches='tight')
