@@ -100,10 +100,10 @@ The following example shows the basic syntax of the \texttt{thm} command:
 \end{minted}
 Output of this command is:
 
-\begin{thm}{Cauchy-Schwarz inequality}{cs}
+\begin{thm}{Cauchy-Bunyakovsky-Schwarz inequality}{cs}
 For all vectors $\vec{u}$ and $\vec{v}$ in an inner product space it is true that
 \begin{equation}
-    \left|\langle\vec{u}, \vec{v}\rangle\right|^2 = \langle\vec{u}, \vec{u} \rangle \cdot \langle\vec{v}, \vec{v} \rangle 
+    \left|\langle\vec{u}, \vec{v}\rangle\right|^2 \leq \langle\vec{u}, \vec{u} \rangle \cdot \langle\vec{v}, \vec{v} \rangle 
 \end{equation}
 \end{thm}
 
@@ -178,50 +178,10 @@ In the discrete topology, the closed sets are $X$ and $\emptyset$.
 
 The example bellow shows how to make a simple table using the \texttt{booktabs} package:
 
-\begin{table}[H]
-    \centering
-
-    \begin{tabular}{@{}llr@{}}  
-        \toprule
-        \multicolumn{2}{c}{Item} \\
-        \cmidrule(r){1-2}
-        Animal    & Description & Price (\$) \\
-        \midrule
-        Gnat      & per gram    & 13.65      \\
-                  &    each     & 0.01       \\
-        Gnu       & stuffed     & 92.50      \\
-        Emu       & stuffed     & 33.33      \\
-        Armadillo & frozen      & 8.99       \\
-        \bottomrule
-    \end{tabular}
-    
-    \caption{Price list}
-    \label{tab:my_label}
-\end{table}
+\input{table.tex}
 
 The code used to produce this example is
-\begin{minted}{latex}
-\begin{table}[H]
-    \centering
-
-    \begin{tabular}{@{}llr@{}}  
-        \toprule
-        \multicolumn{2}{c}{Item} \\
-        \cmidrule(r){1-2}
-        Animal    & Description & Price (\$) \\
-        \midrule
-        Gnat      & per gram    & 13.65      \\
-                  &    each     & 0.01       \\
-        Gnu       & stuffed     & 92.50      \\
-        Emu       & stuffed     & 33.33      \\
-        Armadillo & frozen      & 8.99       \\
-        \bottomrule
-    \end{tabular}
-    
-    \caption{Price list}
-    \label{tab:my_label}
-\end{table}
-\end{minted}
+\inputminted{latex}{table.tex}
 
 \section{Code}
 
@@ -240,7 +200,17 @@ and the line of code above was produced with\footnote{In the example we wrote \t
 
 \section{Python graphs}
 
-When trying to match the style of python (matplotlib) graphs, two main adjustements have to be considered: fonts and colors.
+When trying to match the style of python (matplotlib) graphs, two main adjustments have to be considered: fonts and colors.
+
+\subsection{Text width}
+
+But even before that, another "adjustment" should be made: the dimensions of the figure should be set to be smaller than those of the document. The relevant dimension here is width, or to be precise \texttt{\textbackslash{}textwidth}. But the pure \LaTeX\ ways of getting this give us the size in points (and we need it in inches), so to get it we use the \texttt{printlen} package:
+\begin{minted}{latex}
+\uselengthunit{in}\printlength{\textwidth}
+\end{minted}
+As an example, the text width of this document is \uselengthunit{in}\printlength{\textwidth}.
+
+
 
 \subsection{Fonts}
 
@@ -248,8 +218,8 @@ We need to make sure that the fonts in the document match the fonts in the graph
 \begin{minted}{python}
 from matplotlib import rc
 
-rc('text.latex', preamble=r'\usepackage[charter,cal=cmcal]{mathdesign}')
-rc('text', usetex=True)
+rc('text.latex',preamble=r'\usepackage[charter, cal=cmcal]{mathdesign}')
+rc('text',usetex=True)
 rc('font', family='serif', size=11)
 \end{minted}
 
@@ -269,8 +239,10 @@ rc('axes', prop_cycle = cycler(c=colors))
 
 \subsection{An example}
 Let's put the two things together, to create a simple example. Here is the code:
-\inputminted[linenos]{python}{fig.py}
-The result is shown in Figure \ref{fig:trig}. To completely visually merge the figure in the document we would probably need to tweak a few more things (for example the legend box), but as far as the fonts and colors are concerned, we are done. Note that there are a few extra useful tweaks in the code:
+\inputminted[linenos]{python}{fig.py}%
+The result is shown in Figure \ref{fig:trig}. To completely visually merge the figure in the document we would probably need to tweak a few more things (for example the legend box), but as far as the fonts and colors are concerned, we are done. Note that we set the width of the figure to 6 inches -- that's ok, as we have seen that the width of our document is \uselengthunit{in}\printlength{\textwidth}. 
+
+There are also a few extra useful tweaks in the code:
 \begin{itemize}
     \item The title size is set, in line 25, to the document size (11) -- this is because by default, the title size is a bit bigger (other graph elements do not have this problem). But this is most likely not relevant anyways, as you would not need a title on a figure that will already have a caption.
     \item The path in \texttt{savefig} (line 34) is set to the Overleaf Dropbox repository. This is a great way to get continuous updating with Overleaf every time you change the figure in the code, without having to manually copy/paste or git commit/push.

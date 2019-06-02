@@ -60,12 +60,20 @@
 \thanksmarkseries{alph}
 
 % For showing code - set background color to grey!10 by default
-\RequirePackage{minted}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%       WARNING     %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% REMOVE THE outputdir OPTION WHEN USING THE TEMPLATE IN ITS OWN
+% PACKAGE WHERE THE main.tex FILE IS IN THE ROOT PROJECT DIR
+\RequirePackage[outputdir=..]{minted}
 \setminted{bgcolor=gray!10,breaklines=true,python3=true}
 \usemintedstyle{friendly}
 
 % To add the H parameter for float placement
 \RequirePackage{float}
+
+% To get text width in inches
+\RequirePackage{printlen}
 
 % Import the macros.sty package, we mainly need it for the color palette 
 \RequirePackage{macros}

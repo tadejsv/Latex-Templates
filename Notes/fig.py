@@ -4,7 +4,7 @@ from matplotlib import rc
 from cycler import cycler
 
 # Set up fonts
-rc('text.latex',preamble=r'\usepackage[charter,cal=cmcal]{mathdesign}')
+rc('text.latex',preamble=r'\usepackage[charter, cal=cmcal]{mathdesign}')
 rc('text',usetex=True)
 rc('font', family='serif', size=11)
 
@@ -31,5 +31,5 @@ plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1), borderaxespad=0.)
 plt.tight_layout()
 
 # Save figure
-fig.savefig('../../Dropbox (MIT)/Apps/Overleaf/Notes template/trig.pdf', 
+fig.savefig('../../Dropbox (MIT)/Apps/Overleaf/Templates/Notes/trig.pdf', 
             pad_inches=0, bbox_inches='tight')
