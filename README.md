@@ -1,4 +1,4 @@
-# $\LaTeX$ templates
+# LaTeX templates
 
 Here I have templates for some commonly used document classes (lecture notes and problem sets for now). For each document class I create a class (`.cls`) file, which imports most needed packages and defines some document specific environments and commands. There is also a common `macros.sty` file, which hosts some common commands that are common across all document types (for example `\newcommand{\N}{\mathbb{N}}`).
 
