@@ -21,7 +21,7 @@ for i in range(1,6):
     ax.plot(x, np.sin(x + i*np.pi/6))
 
 # Label graph
-ax.set_title(r'Functions of the form $f(x) = \sin\left(x + \frac{k}{6}\pi\right)$'+\
+ax.set_title(r'$f(x) = \sin\left(x + \frac{k}{6}\pi\right)$'+\
              r' where $k \in \{0,1,2,3,4,5\}$', fontsize=11)
 ax.set_xlabel(r'$x$')
 ax.set_ylabel(r'$f(x)$')
@@ -29,4 +29,4 @@ ax.set_ylabel(r'$f(x)$')
 # Tweak layout and save figure
 plt.tight_layout()
 fig.savefig('../../Dropbox (MIT)/Apps/Overleaf/Templates/Notes/trig.pdf', 
-            pad_inches=0, bbox_inches='tight')
+            pad_inches=0.1, bbox_inches='tight')
