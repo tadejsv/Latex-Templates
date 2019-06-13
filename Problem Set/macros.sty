@@ -1,5 +1,14 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{macros}[2019/06/01 Cross-document useful macros]
+\ProvidesPackage{macros}[2019/06/13 Cross-document useful macros]
+
+% Set bool for fancy (or not) theorems
+\RequirePackage{etoolbox} \newbool{nofancy} \newbool{theorems}
+\newbool{numindep} 
+
+\DeclareOption{nofancy}{\booltrue{nofancy}}
+\DeclareOption{theorems}{\booltrue{theorems}}
+\DeclareOption{numindep}{\booltrue{numindep}}
+\ProcessOptions \relax
 
 % Define the base color palette - based on Paul Tol's colors
 \RequirePackage{xcolor}
@@ -20,8 +29,12 @@
 \definecolor{lPear}{HTML}{BBCC33}
 
 % Two commands using these colors
-\newcommand{\alert}[1]{\textbf{\textcolor{mRed}{#1}}}
-\newcommand{\define}[1]{\textbf{\textcolor{mBlue}{#1}}}
+\newcommand{\alert}[1]{{\bfseries \textcolor{mRed}{#1}}}
+\newcommand{\define}[1]{{\bfseries \textcolor{mBlue}{#1}}}
+
+% For typsetting package/class and command names
+\newcommand{\class}[1]{{\sffamily #1}}
+\newcommand{\command}[1]{{\texttt{\textbackslash{}#1}}}
 
 % Multiline equations with IEEEeqnarray
 \RequirePackage{IEEEtrantools}
@@ -45,3 +58,88 @@
 
 % Common sums
 \newcommand{\si}{\ensuremath{\sum_{i=1}^n}}
+
+% Standard figure inclusion
+\RequirePackage{xifthen}
+
+\RequirePackage{graphicx}
+\newcommand{\inclfig}[4][htbp]{
+    \ifstrequal{#1}{H}{
+        \begin{center}
+            \includegraphics{#2}
+            \ifstrempty{#3}{}{\captionof{figure}{#3}}
+            \ifstrempty{#4}{}{\label{fig:#4}}
+        \end{center}        
+    }{
+        \begin{figure}[#1]
+            \centering
+            \includegraphics{#2}
+            \ifstrempty{#3}{}{\caption{#3}}
+            \ifstrempty{#4}{}{\label{fig:#4}}
+        \end{figure}        
+    }
+}
+
+% Standard table inclusion
+\newcommand{\incltab}[4][htbp]{
+    \ifstrequal{#1}{H}{
+        \begin{center}
+            \input{#2}
+            \ifstrempty{#3}{}{\captionof{table}{#3}}
+            \ifstrempty{#4}{}{\label{tab:#4}}
+        \end{center}        
+    }{
+        \begin{table}[#1]
+            \centering
+            \input{#2}
+            \ifstrempty{#3}{}{\caption{#3}}
+            \ifstrempty{#4}{}{\label{tab:#4}}
+        \end{table}        
+    }
+}
+
+% Theorems
+\newcommand{\newthem}[5][fancy]{%
+    \ifthenelse{\equal{#1}{nofancy}}{%
+        \theoremstyle{#4}
+        \ifthenelse{\equal{#5}{numindep}}{
+            \newtheorem{thm#2}{#3}
+            \newtheorem*{thm#2*}{#3}
+        }{
+            \newtheorem{thm#2}{#3}[section]
+            \newtheorem*{thm#2*}{#3}[section]                
+        }            
+
+        \newenvironment{#2}[2]{\begin{thm#2}[##1]\ifstrempty{##2}{}{\label{#2:##2}}}{\end{thm#2}}
+        \newenvironment{#2*}[2]{\begin{thm#2*}[##1]\ifstrempty{##2}{}{\label{#2:##2}}}{\end{thm#2*}}
+    }{%
+        \ifstrequal{#5}{numindep}{
+            \newtcbtheorem[auto counter]{#2}{#3}{
+            colback=white, coltitle = black, fonttitle=\bfseries, colframe=#4, sharp corners, enhanced, attach boxed title to top left={
+            yshift=-\tcboxedtitleheight/2, xshift = 7mm, yshifttext=-\tcboxedtitleheight/4
+            },
+            boxed title style={colback=#4, sharp corners}, breakable, parbox=false
+            }{#2}%
+        }{
+            \newtcbtheorem[number within = section]{#2}{#3}{
+            colback=white, coltitle = black, fonttitle=\bfseries, colframe=#4, sharp corners, enhanced, attach boxed title to top left={
+            yshift=-\tcboxedtitleheight/2, xshift = 7mm, yshifttext=-\tcboxedtitleheight/4
+            },
+            boxed title style={colback=#4, sharp corners}, breakable, parbox=false
+            }{#2}%            
+        }
+
+    }%
+}
+
+% Color theorem environments
+\ifbool{theorems}{
+    \newthem[\ifbool{nofancy}{nofancy}{fancy}]{thm}{Theorem}{\ifbool{nofancy}{plain}{lMint!70!white}}{\ifbool{numindep}{numindep}{}}
+    \newthem[\ifbool{nofancy}{nofancy}{fancy}]{lem}{Lemma}{\ifbool{nofancy}{plain}{lMint!70!white}}{\ifbool{numindep}{numindep}{}}
+    \newthem[\expandafter\ifbool{nofancy}{nofancy}{fancy}]{exm}{Example}{\ifbool{nofancy}{definition}{lPear!70!white}}{\ifbool{numindep}{numindep}{}}
+    \newthem[\ifbool{nofancy}{nofancy}{fancy}]{dfn}{Definition}{\ifbool{nofancy}{definition}{lBlue!70!white}}{\ifbool{numindep}{numindep}{}}
+}{}
+
+\ifbool{nofancy}{}{%
+    \tcolorboxenvironment{proof}{colframe=lCyan,interior hidden,breakable,colback=white,sharp corners}
+}

@@ -15,9 +15,8 @@ rc('axes', prop_cycle = cycler(c=colors))
 # Plot
 x = np.linspace(-np.pi, np.pi, int(1e3))
 fig, ax = plt.subplots(figsize=(5,4))
-ax.plot(x, np.sin(x), label=rf'$\sin(x)$')
 
-for i in range(1,6):
+for i in range(6):
     ax.plot(x, np.sin(x + i*np.pi/6))
 
 # Label graph

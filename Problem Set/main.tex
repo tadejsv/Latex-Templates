@@ -1,4 +1,5 @@
-\documentclass[letterpaper,11pt]{pset}
+\documentclass{pset}
+\usepackage[theorems,numindep]{macros}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -15,31 +16,34 @@
 \term{Summer 2019}
 \date{Due on 08/01/2019 at 9pm}
 
+%\usepackage{showframe}
+
+%\geometry{margin=1in}
 \begin{document}
 
-\maketitle
+\maketitle\reversemarginpar
 
 \problem{Introduction}
-This is a sample document using the custom \texttt{pset} class (with the \texttt{macros} package). Just like the \texttt{notes} class, its aim is to cut down on boilerplate and provide nice and useful commands for commonly used things. In fact, the \texttt{pset} package shares all the code, apart from the theorem environments (which are not needed in problem sets) with the \texttt{notes} class\footnote{In the future I should probably create a common base class.}. 
+This is a sample document using the custom \class{pset} class (with the \class{macros} package). Just like the \class{notes} class, its aim is to cut down on boilerplate and provide nice and useful commands for commonly used things. In fact, the \class{pset} class builds on the \class{notes} class. 
 
-That's why I will focus here on the new features that the \texttt{pset} class implements: \define{custom title}, \define{problems} and \define{hideable solutions}. As before, the use of this class is very simple:
-\begin{minted}{latex}
+That's why I will focus here on the new features that the \class{pset} class implements: \define{custom title}, \define{problems} and \define{hideable solutions}. As before, the use of this class is very simple:
+\begin{tminted}{latex}
 \documentclass{pset}
-\end{minted}
+\end{tminted}
 
 \problem{Class options}
-So as mentioned before, all the options are the same as for the \texttt{notes} class, except that there is no \texttt{nofancy} option. There are a few \texttt{pset} specific options:
-\begin{itemize}
-    \item \texttt{nosolutions}: If this option is passed, the solutions will be hidden.
-    \item \texttt{nobox}: If this option is passed, the solutions, if they are shown, will not be boxed.
-    \item \texttt{inline}: If this option is passed, the problem title will be typeset inline-style (as opposed to section-style, which is default).
-\end{itemize}
-As in the \texttt{notes} class, all the other options get passed to the \texttt{article} class.
+The \class{pset} specific options are:
+\begin{description}[font=\ttfamily, labelindent=1em]
+    \item[nosolutions] If this option is passed, the solutions will be hidden.
+    \item[nobox] If this option is passed, the solutions, if they are shown, will not be boxed.
+    \item[nline] If this option is passed, the problem title will be typeset inline-style (as opposed to subsection-style, which is default).
+\end{description}
+As in the \class{notes} class, all the other options get passed to the \class{scrartcl} class.
 
 \problem{Custom title}
 The title is designed so that it conveys all the needed information about the problem set, while occupying as little space as possible. Apart from the standard \texttt{title}, \texttt{author} and \texttt{date}, the title here can also contain a \texttt{course} and a \texttt{term}. Otherwise the title creation is the same as with the normal title. For example, the title for this document was created with
 
-\begin{minted}{latex}
+\begin{tminted}{latex}
 \title{Problem Set Template}
 \author{Tadej Svetina\thanks{\texttt{tadej@mit.edu}}}
 \course{Template Design}
@@ -49,21 +53,24 @@ The title is designed so that it conveys all the needed information about the pr
 \begin{document}
 
 \maketitle
-\end{minted}
+\end{tminted}
 
 \problem[ctitle]{Problems}
-The class defines a \texttt{\textbackslash{}problem} command to show the problem title. This can be shown section-style (as in this document) or paragraph-style (if \texttt{inline} option was set, example is shown bellow). The command syntax is as follows:
-\begin{minted}{latex}
+The class defines a \texttt{\textbackslash{}problem} command to show the problem title. This can be shown subsection-style (as in this document) or paragraph-style (if \texttt{inline} option was set, example is shown bellow). The subsection-style is chose on purpose, so that problems can be combined seamlessly with section (if, for example, the first section is Review, and the second one Problems). The command syntax is as follows:
+\begin{tminted}{latex}
 \problem[label]{name}
-\end{minted}
+\end{tminted}
 Here \texttt{label} is used for referencing, so for example if the label is set to \texttt{ctitle} (as it is for this problem), then we can reference the problem with \texttt{\textbackslash{}ref\{pr:ctitle\}}. This would produce \ref{pr:ctitle}. 
 
 The \texttt{name} argument simply defines a name to be used for the problem, if left empty only the counter will be shown. The number of the problem can not be controlled by this command, however it is controlled by the \texttt{problem} counter, so the usual counter manipulations apply.
 
-Finally, here is how an inline version of this problem would look like\footnote{I just use \texttt{\textbackslash{}paragraph} for this demonstration}:
+Here is how an inline version of this problem would look like\footnote{I just use \texttt{\textbackslash{}paragraph} for this demonstration}:
 
 \paragraph{\textsf{Problem 4 (Problems)}}
 The class defines a \texttt{\textbackslash{}problem} command to show the problem title. This can \ldots
+
+\paragraph{Optional marker\optional} There is also a command \command{optional[text]}, which outputs a boxed label in the margin (as shown here). By default, the text is ``OPTIONAL'', but this can be changed to something else (for example, ``BONUS''). Very useful for optional problems --- and this can also be used in list environments.
+
 
 \problem{Hideable solutions}
 The last piece of the puzzle are the problem set solutions. They can be made to disappear -- this is very useful, for example, if you are a TA, and want to avoid having to create two copies (one with solutions one without) of the problem set. You can first create the problem set with the solutions, set the \texttt{nosolutions} option to hide them and distribute this copy, and once the problem set is past the due date, remove this option and upload the full document.
@@ -75,11 +82,11 @@ Here's how solutions look like:
 Does this really solve anything?
 \end{solutions}
 and here is how this example was produced
-\begin{minted}{latex}
+\begin{tminted}{latex}
 \begin{solutions}
     Does this really solve anything?
 \end{solutions}
-\end{minted}
+\end{tminted}
 
 Finally, here's how the solutions would have looked like with the \texttt{nobox} option:
 \begin{solutionsa}

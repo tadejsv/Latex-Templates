@@ -1,103 +1,279 @@
-\documentclass[letterpaper,11pt]{notes}
+\documentclass{notes}
+\usepackage[theorems]{macros}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% WARNING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% The following is here just to demonstrate the nofancy option for this template, and should be removed in any real document
-\theoremstyle{definition}
-\newtheorem{dfn}{Definition}[section]
-\newtheorem{Iexm}{Example}[section]
-   
-\theoremstyle{plain}
-\newtheorem{Ithm}{Theorem}[section]
-\newtheorem{Ilem}{Lemma}[section]
+\usepackage{lipsum}
+%\usepackage{showframe}
 
-\newenvironment{definitionA}[2]
-    {\begin{dfn}[#1]\ifstrempty{#2}{}{\label{dfnA:#2}}}
-    {\end{dfn}}
-\newenvironment{lemA}[2]
-    {\begin{Ilem}[#1]\ifstrempty{#2}{}{\label{lemA:#2}}}
-    {\end{Ilem}}
-\newenvironment{thmA}[2]
-    {\begin{Ithm}[#1]\ifstrempty{#2}{}{\label{thmA:#2}}}
-    {\end{Ithm}}
-\newenvironment{exampleA}[2]
-    {\begin{Iexm}[#1]\ifstrempty{#2}{}{\label{exmA:#2}}}
-    {\end{Iexm}}
-    
-\theoremstyle{remark}
-\newtheorem*{proofA}{Proof}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% For examples
+\newthem[nofancy]{prop}{Proposition}{definition}{numindep}
+\newthem{alrt}{Alert}{mRed}{}
 
 \title{Notes template}
-\author{Tadej Svetina\thanks{\tt tadej@mit.edu}\\MIT}
+\subtitle{with the \texttt{macros} package}
+\author{Tadej Svetina\thanks{\texttt{tadej@mit.edu}}\\MIT}
 \date{June 2019}
 
 \begin{document}
 
 \maketitle
 
+\tableofcontents
+
 \section{Introduction}
+This is a sample document using the custom \class{notes} class (with the \class{macros} package). The primary aim of the \class{notes} class is to move all the boilerplate usually found in the preamble of the \texttt{main.tex} file to a reusable class file, making the actual document code shorter and easier to read.
 
-This is a sample document using the custom \texttt{notes} class (with the \texttt{macros} package). The primary aim of the \texttt{notes} class is to move all the boilerplate usually found in the preamble of the \texttt{main.tex} file to a reusable class file, making the actual document code shorter and easier to read.
+Complementing that, the secondary aim of the \class{notes} class and the \class{macros} package is to create short commands for some frequently used things, cutting down on typing/tinkering time and improving readability.
 
-Complementing that, the secondary aim of the \texttt{notes} class and the \texttt{macros} package is to create short commands for some frequently used things, cutting down on typing/tinkering time and improving readability.
-
-Finally, as we have a reusable class and package, we might as well define some nice looking defaults. For this purpose, the class/package define (or show)
+Finally, as we have a reusable class and package, we might as well define some nice looking defaults. For this purpose, the class/package define
 \begin{itemize}
     \item a custom color palette, based on \href{https://personal.sron.nl/~pault/}{Paul Tol's vibrant scheme}
-    \item nice fancy theorem environments (optional),
+    \item nice fancy theorem environments
 \end{itemize}
 
-I showcase all of the above mentioned features in this template, and as a bonus, also how to get easy code highlighting in \LaTeX, how to typset nice tables with \texttt{booktabs} and how to adjust fonts and colors for python graphs to match the document. 
-
-Finally, to use the class/package combo, just put both files in the root project repository, and add the following line to the top of the \texttt{main.tex} file
-\begin{minted}{latex}
+In this document I showcase all of the above, as well as how to adjust fonts in a python graph to match those in the document. To use the class/package combo (with the usual defaults), just put both files in the root project repository, and add the following line to the top of the \texttt{main.tex} file
+\begin{tminted}{latex}
 \documentclass{notes}
-\end{minted}
+\usepackage[theorems]{macros}
+\end{tminted}
 Nothing else is needed!
 
-\section{Class options}
-The \texttt{notes} class defines the following class-specific options:
-\begin{itemize}
-    \item \texttt{letterpaper}: Sets the paper size to letter paper, with 1 inch margins. This is the default.  
-    \item \texttt{a4paper}: Sets the paper size to A4 paper, with 1 inch margins.  
-    \item \texttt{a5paper}: Sets the paper size to A5 paper, with $0.75$ inch margins.  
-    \item \texttt{b5paper}: Sets the paper size to B5 paper, with $0.75$ inch margins.  
-    \item \texttt{nofancy}: This removes the fancy formatting from the theorem environments, giving them the standard \texttt{amsthm} formatting, see section \ref{nofancy}.  
+\section{The \texttt{notes} class}
+
+The class mainly takes care of adjusting the visual appearance of the document and importing some frequently used packages. It is based on \class{scrartcl} class from the \class{KOMA-Script} package. All options are passed down to \class{scrartcl}. 
+
+\subsection{Fonts, title and headings} \label{fonts}
+
+The fonts used in the document are Bitstream Charter for the serif font (using the \class{mathdesign} package), \textsf{Fira Sans} for sans serif (using the \class{FiraSans} package and scaled by a factor of $0.95$ to match with Charter) and \texttt{Inconsolata} for monotype.
+
+As you can see, title and headings have been modified slightly. The heading number has been put in the margin, and the title (and subtitle) are now set in normal font (as opposed to bold).
+
+\subsection{Layout} 
+
+I don't like the default \class{scrartcl} layout, so I implemented my own. It uses the \class{geometry} package (not \command{KOMAoptions}) to set the parameters, and \alert{\class{geometry} should be used to implement any changes to the layout}. Here's how the layout is set by default:
+\begin{description}[font=\ttfamily, labelindent=1em]
+    \item[width] The current length of \command{textwidth}, clipped to the length of between 2 and 3 alphabets. The \texttt{hmarginratio} is left at the default of 1:1
+    
+    \item[height] The maximum of $\frac{8}{11.5}$ of \command{paperwidth} and \command{paperwidth} minus $2.5$ inches. The \texttt{vmarginratio} is left at the default of 2:3
+    
+    \item[marginparwidth] Minimum of 1 inch and 
+    \begin{equation*}
+        \tfrac{1}{2}\left(\command{paperwidth}-\command{textwidth}\right) - 2\command{marginparsep}.
+    \end{equation*}
+    It is computed after \texttt{width} is computed.
+\end{description}
+
+If you should do any changes to the layout (say, setting a different paper size), you should issue a \command{recalcmargins} command to recalculate paper layout according to the formulas above. 
+
+\begin{exm}{Changing paper size}{}
+Say you want to change the size of the paper to A4 (default is letter). To do this you put the following code in the preamble
+
+\begin{tminted}{latex}
+\geometry{paper=a4paper}
+\recalculatemargins
+\end{tminted}
+\end{exm}
+
+\subsection{Code listings}
+
+To produce code listings, class uses the \class{minted} engine, which is wrapped inside a \class{tcolorbox} (to get rid of some spacing issues). The command for manual code input is \command{tminted} and for code input from file \command{tinputminted}; they both behave like their \texttt{t}-less counterparts.
+
+\begin{exm}{\texttt{tminted}}{}
+For \texttt{tminted} we can write
+\begin{tminted}[escapeinside=||]{latex}
+\begin{|tminted|}{python}
+    print('1 + 2 = {}'.format(1+2))
+\end{|tminted|}
+\end{tminted}
+which would output
+\begin{tminted}{python}
+print('1 + 2 = {}'.format(1+2))
+\end{tminted}
+\end{exm}
+
+To input code from a file -- in this example \texttt{code.py} -- we would write
+\begin{tminted}{latex}
+\tinputminted[linenos]{python}{code.py}
+\end{tminted}
+which would produce
+\tinputminted[linenos]{python}{code.py}
+
+\subsection{Loaded packages}
+
+The following packages are loaded by the class (apart from the font packages mentioned in \ref{fonts}):
+\begin{itemize}[nosep]
+    \item \class{etoolbox} 
+    \item \class{calc}
+    \item \class{inputenc}, \class{outputenc} (with \texttt{utf8x} and \texttt{T1})
+    \item \class{geometry}
+    \item \class{enumitem}
+    \item \class{footmisc}
+    \item \class{amsmath}, \class{amsthm}, \class{IEEEtrantools}
+    \item \class{graphicx}
+    \item \class{booktabs}
+    \item \class{tcolorbox} (with \texttt{most} and \texttt{minted} options)
+    \item \class{printlen}
+    \item \class{hyperref}
 \end{itemize}
 
-Any other options passed to \texttt{notes} class will simply be passed to the \texttt{article} class, on which \texttt{notes} builds.
+\section{The \texttt{macros} package}
 
-\section{Colors} \label{colors}
+This package takes care of creating macros for commonly used things. Apart from this, it also defines a custom color palette, and an environment for (optionally) colorful theorems.
+
+\subsection{Package options}
+The \class{macros} package defines the following options:
+\begin{description}[font=\ttfamily, labelindent=1em]
+    \item[theorems] Creates the default theorem environments (see \ref{theorems})  
+    \item[nofancy] This removes the fancy formatting from the default theorem environments (if they are created), giving them the standard \class{amsthm} formatting  
+    \item[numindep] This makes the default theorems be numbered independently (of sections), i.e., they each have their own counter.
+\end{description}
+
+\subsection{Colors} \label{colors}
 The color palette defines the following colors (which are obtained by \texttt{m} + capitalized name of the color):
 \begin{itemize}\bfseries
     \item \textcolor{mBlue}{blue,} \textcolor{mCyan}{cyan,} \textcolor{mTeal}{teal,} \textcolor{mOrange}{orange,} \textcolor{mRed}{red,} \textcolor{mMagneta}{magneta,} \textcolor{mGrey}{grey} 
 \end{itemize}
 
-There are two commands that use these colors: \texttt{\alert{\textbackslash{}alert}} and \texttt{\define{\textbackslash{}define}}.
+There are two commands that use these colors: \texttt{\alert{\textbackslash{}alert}} and \texttt{\define{\textbackslash{}define}}. Additionally, mainly for use with theorems, the following 4 light colors are defined (obtained by \texttt{l} + capitalized name of the color)
+\begin{itemize}\bfseries
+    \item \textcolor{lBlue}{blue,} \textcolor{lCyan}{cyan,} \textcolor{lMint}{mint,} \textcolor{lPear}{pear}
+\end{itemize}
 
-\section{Theorems}
+\subsection{Math macros}
+First, some commonly used simple expressions are given short and easy to remember command names. They are put inside \command{ensuremath}, so they can be safely used outside math mode, without being enclosed in \verb|$$|. The commands are
 
-The only special custom thing are the theorems, which are (by default) made "fancy" with the \texttt{tcolorbox} environment. This can be turned off by passing \texttt{nofancy} option to the document class. The following theorem-environments are supported:
+\begin{tminted}{latex}
+\R, \E, \Q, \Z, \N, \Rp, \Rnn, \si,
+
+\end{tminted}
+and they produce
+
 \begin{itemize}
+    \item \R, \E, \Q, \Z, \N, \Rp, \Rnn, \si
+\end{itemize}
+
+I also define the \texttt{eqns} and \texttt{eqns*} environments, which are just wrappers for the \texttt{IEEEeqnarry} environment with the \texttt{rCl} column layout.
+
+\begin{exm}{Multiline equations with \texttt{eqns}}{}
+A very simple multiline equation would be typset with
+\begin{tminted}{latex}
+    \begin{eqns*}
+    1 + 2 + \dots + n &=& \si i \\
+                      &=& \frac{i(i+1)}{2}
+    \end{eqns*}
+\end{tminted}
+producing
+\begin{eqns*}
+1 + 2 + \dots + n &=& \si i \\
+                  &=& \frac{i(i+1)}{2}
+\end{eqns*}
+\end{exm}
+
+\subsection{Floats}
+
+There are two commands which simplify the usual inclusion of floats (tables and figures) --- that is, they produced centered figures/tables. These two commands are:
+
+\begin{tminted}{latex}
+\inclfig[pos]{filename}{caption}{label}
+\incltab[pos]{filename}{caption}{label}
+\end{tminted}
+
+The \texttt{pos} argument is the usual float positioning argument, by default it is set to \texttt{htbp}. Mimicing the \class{float} package, you can use the \texttt{H} specifier, in the background \command{captionof} is used (see Example \ref{exm:inline}), so that inline figures can be used inside the \class{tcolorbox} evironments. If \texttt{label} is used, it will be prepended by \texttt{fig:} or \texttt{tab:}.
+
+\begin{exm}{An inline figure}{inline}
+Here's how we would include an inline figure:
+\begin{tminted}{latex}
+\inclfig[H]{metro.jpg}{A metro train}{}
+\end{tminted}
+
+And here's how the result would look like:
+\inclfig[H]{metro.jpg}{A metro train}{}
+\end{exm}
+
+\begin{exm}{Using \class{booktabs}}{booktabs}
+Here's how to make a simple table using the \class{booktabs} package:
+
+\incltab[H]{table.tex}{Price list}{prices}
+
+The code used to produce this example is
+\tinputminted{latex}{table.tex}
+
+and it was included in the document using
+\begin{tminted}{latex}
+\incltab[H]{table.tex}{Price list}{prices}
+\end{tminted}
+\end{exm}
+
+\subsection{Theorems} \label{theorems}
+
+The \class{macros} package provides support for creating colorful theorem (not limited to only theorems) environments, made with \class{tcolorbox}, to catch the reader's attention (\texttt{nofancy} is also an option). A few theorems can be defined by default (with the \texttt{theorems} option), and you have the option to create your own. Finally, the proof environment is also "packaged" in a colorful box.
+
+\subsubsection{Defining your own theorem environments}
+You can define your own theorem enviroment with
+\begin{tminted}{latex}
+\newthem[fancy]{thmname}{title}{style}{numbering}
+\end{tminted}
+
+First, the \texttt{thmname} parameter sets the name of the new environment (as well as the \command{label} prefix), while \texttt{title} sets the title of the environment (as will be displayed). The \texttt{fancy} argument can be set to \texttt{nofancy} --- in this case the theorem is made with \class{amsthm} environments. The \texttt{style} argument controls the appearance --- the color if the theorem is fancy, and the \class{amsthm} theorem style if it is not fancy. Finally, the \texttt{numbering} argument controls the numbering --- if it is set to \texttt{numindep} the counter of the theorem will be independent of sections, otherwise it will be numbered withing sections.
+
+Once we have defined a theorem, we can use it with
+\begin{tminted}{latex}
+\begin{thmname}{title}{label}
+Content
+\end{thmname}
+\end{tminted}
+
+or
+
+\begin{tminted}{latex}
+\begin{thmname*}{title}{label}
+Content
+\end{thmname*}
+\end{tminted}
+
+where \texttt{title} is an optional specific title, and \texttt{label} controls the label name (full reference will be \texttt{thmname:label}). The starred version, as usual, produces an unnumbered theorem.
+
+\begin{exm}{Fancy theorem}{}
+Let's create a fancy theorem called Alert, which should be red. We do this with
+\begin{tminted}{latex}
+\newthem{alrt}{Alert}{mRed}{}
+\end{tminted}
+
+Then, let's create an alert with
+\begin{tminted}{latex}
+\begin{alrt}{}{Danger}Watch out!\end{alrt}
+\end{tminted}
+
+which produces
+\begin{alrt}{Danger}{}Watch out!\end{alrt}
+
+\end{exm}
+
+\begin{exm}{Boring theorem}{}
+Let's create a nofancy theorem called Proposition. We will style it with the \texttt{plain} \class{amsthm} style.
+\begin{tminted}{latex}
+\newthem[nofancy]{prop}{Proposition}{definition}{numindep}
+\end{tminted}
+
+We can then create a proposition with
+\begin{tminted}{latex}
+\begin{prop}{Boring}{}This is a proposition.\end{prop}
+\end{tminted}
+
+which produces
+\begin{prop}{Boring}{}This is a proposition.\end{prop}
+\end{exm}
+
+\subsubsection{Default theorems}
+The following theorems are defined if the \texttt{theorems} option is used (name of environment given in parentheses).
+\begin{itemize}[nosep]
     \item Theorem (\texttt{thm})
     \item Lemma (\texttt{lem})
     \item Example (\texttt{exm})
-    \item Definition (\texttt{definition})
+    \item Definition (\texttt{dfn})
 \end{itemize}
-Additionally, \texttt{proof} also has a fancy version with a colorful frame, but it is not numbered.
 
+If the \texttt{nofancy} option is passed, these theorems will be formatted with the \texttt{nofancy} argument\footnote{Passing the \texttt{nofancy} option creates a \texttt{nofancy} boolean --- you could use it in your own theorems, so that the look of all theorems will be defined with the \texttt{nofancy} option.}. Their default (fancy) look of these environments is demonstrated bellow: 
 
-\subsection{Theorem}
-The following example shows the basic syntax of the \texttt{thm} command:
-\begin{minted}{latex}
-\begin{thm}{Cauchy-Bunyakovsky-Schwarz inequality}{cs}
-    For all vectors $\vec{u}$ and $\vec{v}$ in ...
-\end{thm}
-\end{minted}
-Output of this command is:
 
 \begin{thm}{Cauchy-Bunyakovsky-Schwarz inequality}{cs}
 For all vectors $\vec{u}$ and $\vec{v}$ in an inner product space it is true that
@@ -106,14 +282,6 @@ For all vectors $\vec{u}$ and $\vec{v}$ in an inner product space it is true tha
 \end{equation}
 \end{thm}
 
-\subsection{Lemma}
-The following example shows the basic syntax of the \texttt{lem} command:
-\begin{minted}{latex}
-\begin{lem}{Titu's Lemma}{titu}
-    For some $u_i, v_i \in \Rnn$, it is true that ...
-\end{lem}
-\end{minted}
-Output of this command is:
 \begin{lem}{Titu's Lemma}{titu}
 For some $u_i, v_i \in \Rnn$, it is true that
 \begin{equation}
@@ -121,81 +289,32 @@ For some $u_i, v_i \in \Rnn$, it is true that
 \end{equation}
 \end{lem}
 
-\subsection{Proof}
-The following example shows the basic syntax of the \texttt{proof} command, as well as how the references to the above Lemma and Theorem work.
-\begin{minted}{latex}
+\begin{dfn}{}{}
+We say that a set $A$ is \define{closed}, if its complement $A^C$ is open.
+\end{dfn}
+
+\begin{exm}{}{}
+In the indiscrete topology, the closed sets are $X$ and $\emptyset$.
+\end{exm}
+
+\subsubsection{Proof}
+
+Without \texttt{nofancy} option, the default proof environment is put in a cyan box (while with the \texttt{nofancy} option, it is left as is).
+
+\begin{exm}{Proof}{}
+Let's write a simple proof:
+
+\begin{tminted}{latex}
 \begin{proof}
     To prove Lemma \ref{lem:titu}, we just need to replace $u_i' = \frac{u_i}{\sqrt{v_i}}$ and $v_i' = \sqrt{v_i}$, and then apply Theorem \ref{thm:cs}. 
 \end{proof}
-\end{minted}
+\end{tminted}
 The output is:
 \begin{proof}
 To prove Lemma \ref{lem:titu}, we just need to replace $u_i' = \frac{u_i}{\sqrt{v_i}}$ and $v_i' = \sqrt{v_i}$, and then apply Theorem \ref{thm:cs}. 
 \end{proof}
 
-\subsection{Example and definition}
-The syntax is basically the same as for Lemma and Proof, so I omit the code. Note the use of \texttt{define} command in the definition.
-
-\begin{definition}{}{}
-We say that a set $A$ is \define{closed}, if its complement $A^C$ is open.
-\end{definition}
-
-\begin{example}{}{}
-In the discrete topology, the closed sets are $X$ and $\emptyset$.
-\end{example}
-
-\subsection{\texttt{nofancy} theorems} \label{nofancy}
-Here we show how the previous examples in this section would have looked like if we passed the \texttt{nofancy} option to the document class. The code syntax would have remained the same, of course.
-
-\begin{thmA}{Cauchy-Bunyakovsky-Schwarz inequality}{cs}
-For all vectors $\vec{u}$ and $\vec{v}$ in an inner product space it is true that
-\begin{equation}
-    \left|\langle\vec{u}, \vec{v}\rangle\right|^2 \leq \langle\vec{u}, \vec{u} \rangle \cdot \langle\vec{v}, \vec{v} \rangle 
-\end{equation}
-\end{thmA}
-
-\begin{lemA}{Titu's Lemma}{titu}
-For some $u_i, v_i \in \Rnn$, it is true that
-\begin{equation}
-    \frac{\left(\si u_i\right)^2}{\si v_i} \leq \si \frac{u_i^2}{v_i}
-\end{equation}
-\end{lemA}
-
-\begin{proofA}
-To prove Lemma \ref{lem:titu}, we just need to replace $u_i' = \frac{u_i}{\sqrt{v_i}}$ and $v_i' = \sqrt{v_i}$, and then apply Theorem \ref{thm:cs}. \hfill \qedsymbol % A bit of hacking here...
-\end{proofA}
-
-\begin{definitionA}{}{}
-We say that a set $A$ is \define{closed}, if its complement $A^C$ is open.
-\end{definitionA}
-
-\begin{exampleA}{}{}
-In the discrete topology, the closed sets are $X$ and $\emptyset$.
-\end{exampleA}
-
-\section{Tables}
-
-The example bellow shows how to make a simple table using the \texttt{booktabs} package:
-
-\input{table.tex}
-
-The code used to produce this example is
-\inputminted{latex}{table.tex}
-
-\section{Code}
-
-This isn't anything special to the \texttt{notes} class, but I just show how to write beautifully formatted Python code for reference. Here is how some python code looks like:
-\inputminted[linenos]{python}{code.py}%
-We can make use of code separation and import the code to be displayed from a separate \texttt{.py} file, indeed, the previous example was produced by (\texttt{linenos} is used to add line numbers)
-\begin{minted}{latex}
-\inputminted[linenos]{python}{code.py}
-\end{minted}
-and the line of code above was produced with\footnote{In the example we wrote \texttt{m inted} instead of \texttt{minted}, as otherwise \texttt{\textbackslash{}end\{minted\}} is not properly escaped.}
-\begin{minted}{latex}
-\begin{m inted}{latex}
-    \inputminted{python}{code.py}
-\end{m inted}
-\end{minted}
+\end{exm}
 
 \section{Python graphs}
 
@@ -204,9 +323,9 @@ When trying to match the style of python (matplotlib) graphs, two main adjustmen
 \subsection{Text width}
 
 But even before that, another "adjustment" should be made: the dimensions of the figure should be set to be smaller than those of the document. The relevant dimension here is width, or to be precise \texttt{\textbackslash{}textwidth}. But the pure \LaTeX\ ways of getting this give us the size in points (and we need it in inches), so to get it we use the \texttt{printlen} package:
-\begin{minted}{latex}
+\begin{tminted}{latex}
 \uselengthunit{in}\printlength{\textwidth}
-\end{minted}
+\end{tminted}
 As an example, the text width of this document is \uselengthunit{in}\printlength{\textwidth}.
 
 
@@ -214,31 +333,31 @@ As an example, the text width of this document is \uselengthunit{in}\printlength
 \subsection{Fonts}
 
 We need to make sure that the fonts in the document match the fonts in the graph. Matplotlib has a limited selection of fonts, so its safest to let \LaTeX\ do all the font processing. We need to load the fonts and change the size to match that of our document. We would do this by putting this at the beginning of our code
-\begin{minted}{python}
+\begin{tminted}{python}
 from matplotlib import rc
 
 rc('text.latex',preamble=r'\usepackage[charter, cal=cmcal]{mathdesign}')
 rc('text',usetex=True)
 rc('font', family='serif', size=11)
-\end{minted}
+\end{tminted}
 
 Note that this will slow down processing quite a bit, so \alert{only change the fonts when the figures are done!}
 
 \subsection{Colors}
 
 We might also want to use our standard color palette (see section \ref{colors}) -- although this is more a matter of taste, there is nothing wrong with matplotlib color palettes. The way we would implement them is with
-\begin{minted}{python}
+\begin{tminted}{python}
 from matplotlib import rc
 from cycler import cycler
 
 colors = ['#0077BB', '#EE7733', '#009988', '#CC3311', '#33BBEE', '#EE3377']
 rc('axes', prop_cycle = cycler(c=colors))
-\end{minted}
+\end{tminted}
 
 
 \subsection{An example}
 Let's put the two things together, to create a simple example. Here is the code:
-\inputminted[linenos]{python}{fig.py}%
+\tinputminted[linenos]{python}{fig.py}%
 The result is shown in Figure \ref{fig:trig}. Note that we set the width of the figure to 5 inches -- that's ok, as we have seen that the width of our document is \uselengthunit{in}\printlength{\textwidth}. 
 
 There are also a few extra useful tweaks in the code:
@@ -247,21 +366,12 @@ There are also a few extra useful tweaks in the code:
     \item The path in \texttt{savefig} (line 31) is set to the Overleaf Dropbox repository. This is a great way to get continuous updating with Overleaf every time you change the figure in the code, without having to manually copy/paste or git commit/push.
 \end{itemize}
 
-\begin{figure}
-    \centering
-    \includegraphics{trig.pdf}
-    \caption{Some trigonometric functions}
-    \label{fig:trig}
-\end{figure}
+\inclfig[htbp]{trig.pdf}{Some trigonometric functions}{trig}
 
 \section{Todo}
 There are a couple of things that I would like to add to this class (package), including
 \begin{itemize}
-    \item Macros for some commonly used list variations from the \texttt{enumitem} package
-    \item Macros for multiline equations (\texttt{IEEEtrantools} based)
-    \item Explore \texttt{captionof} package in conjunction with \texttt{tcolorbox} to include figures in theorem environments
-    \item Tweak some spacing (after \texttt{minted}, between list items)
-    \item Macros for easier table and figure input
+    \item Macros for some commonly used list variations from the \class{enumitem} package
 \end{itemize}
 
 \end{document}

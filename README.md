@@ -12,4 +12,4 @@ Currently the following document types are available:
 
 ## Todo
 
-In the near future, a class for slides will be added. This will be based on the metropolis class, with only minor modifications. Also, a common base class for notes and problem set should be created.
+In the near future, a class for slides will be added. This will be based on the metropolis class, with only minor modifications. As Overleaf seems not to support Fira Math, this should be compiled locally.
